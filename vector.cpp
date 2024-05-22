@@ -59,36 +59,11 @@ Vector Vector::operator-(Vector &other) const{
     return result;
 }
 
-Vector Vector::operator^(Vector &other) const{
-    if (!(this->capacity == 3 && other.capacity == 3))
-        throw invalid_argument("vector capacity should be = 3");
-    double ax = this->coords[0], ay = this->coords[1], az = this->coords[2];
-    double bx = other.coords[0], by = other.coords[1], bz = other.coords[2];
-    Vector result = {ay * bz - by * az, ax * bz - bx * az, ax * by - bx * ay};
-    return result;
-}
-
-double Vector::operator*(Vector &other) const{
+double Vector::operator^(Vector &other) const{
     if (this->capacity != other.capacity)
         throw invalid_argument("vector capacity should be equal");
     double result = 0;
     for (int i = 0; i < this->capacity; ++i) result += this->coords[i] * other.coords[i];
-    return result;
-}
-
-Vector operator*(Vector vector, double other) {
-    auto *newCoords = new double [vector.capacity];
-    for (int i = 0; i < vector.capacity; ++i) newCoords[i] = vector.coords[i] * other;
-    Vector result(vector.capacity, newCoords);
-    delete[] newCoords;
-    return result;
-}
-
-Vector operator*(double other, Vector vector) {
-    auto *newCoords = new double [vector.capacity];
-    for (int i = 0; i < vector.capacity; ++i) newCoords[i] = vector.coords[i] * other;
-    Vector result(vector.capacity, newCoords);
-    delete[] newCoords;
     return result;
 }
 
@@ -118,7 +93,7 @@ Vector Vector::operator*=(double other) {
     return *this;
 }
 
-Vector Vector::operator^=(Vector &other) {
+Vector Vector::operator*=(Vector &other) {
     if (!(this->capacity == 3 && other.capacity == 3))
         throw invalid_argument("vector capacity should be = 3");
     double ax = this->coords[0], ay = this->coords[1], az = this->coords[2];
