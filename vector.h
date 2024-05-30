@@ -32,7 +32,7 @@ public:
     double operator ^ (Vector& other) const; // скалярное произведение
 
     template<typename U, typename V>
-    friend Vector operator * (const U& arg1, const V& arg2);
+    friend Vector operator * (const U& arg1, const V& arg2); // векторное произведение, умножение на число
 
     Vector operator / (double other) const;
 
@@ -68,12 +68,14 @@ Vector operator*(const U& arg1, const V& arg2) {
         double bx = arg2.coords[0], by = arg2.coords[1], bz = arg2.coords[2];
         Vector result = {ay * bz - by * az, ax * bz - bx * az, ax * by - bx * ay};
         return result;
+
     } else if constexpr (is_same<U, Vector>::value && (is_same<V, double>::value || is_same<V, int>::value)){
         auto *newCoords = new double [arg1.capacity];
         for (int i = 0; i < arg1.capacity; ++i) newCoords[i] = arg1.coords[i] * arg2;
         Vector result(arg1.capacity, newCoords);
         delete[] newCoords;
         return result;
+
     } else if constexpr ((is_same<U, double>::value || is_same<U, int>::value) && is_same<V, Vector>::value){
         auto *newCoords = new double [arg2.capacity];
         for (int i = 0; i < arg2.capacity; ++i) newCoords[i] = arg2.coords[i] * arg1;
